@@ -5,11 +5,22 @@ const totalTasksSpan = document.querySelector("#totalTasks");
 
 let tasks = ["task1", "task2", "task3"];
 
+function syncStorageWithTasks() {
+	tasks.splice(0, tasks.length);
+
+	keys = Object.keys(localStorage);
+
+	for (let i = 0; i < localStorage.length; i++){
+		tasks.push(localStorage.getItem(keys[i]));
+	}
+}
+
 function deleteItem(e) {
 	let task = e.target.parentElement.previousElementSibling.innerHTML;
 	let index = tasks.indexOf(task);
 
 	if (index != -1) {
+		localStorage.removeItem(task[index]);
 		tasks.splice(index, 1);
 	}
 
@@ -42,8 +53,6 @@ function updateList() {
 	totalTasksSpan.innerHTML = tasks.length;
 }
 
-updateList();
-
 function notOnlyWhiteSpaces(string) {
 	let strippedString = string.trim();
 	return strippedString.length > 0;
@@ -52,6 +61,7 @@ function notOnlyWhiteSpaces(string) {
 async function addTask() {
 	if (inputTask.value && notOnlyWhiteSpaces(inputTask.value) && !tasks.includes(inputTask.value)) {
 		tasks.push(inputTask.value)
+		localStorage.setItem(inputTask.value, inputTask.value);
 		updateList();
 	}
 	else {
@@ -69,3 +79,6 @@ formEl.addEventListener("submit", (e) => {
 	e.preventDefault();
 	addTask();
 })
+
+syncStorageWithTasks();
+updateList();
