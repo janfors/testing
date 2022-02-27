@@ -8,7 +8,7 @@ let tasks = ["task1", "task2", "task3"];
 function syncStorageWithTasks() {
 	tasks.splice(0, tasks.length);
 
-	keys = Object.keys(localStorage);
+	let keys = Object.keys(localStorage);
 
 	for (let i = 0; i < localStorage.length; i++){
 		tasks.push(localStorage.getItem(keys[i]));
@@ -20,7 +20,7 @@ function deleteItem(e) {
 	let index = tasks.indexOf(task);
 
 	if (index != -1) {
-		localStorage.removeItem(task[index]);
+		localStorage.removeItem(tasks[index]);
 		tasks.splice(index, 1);
 	}
 
